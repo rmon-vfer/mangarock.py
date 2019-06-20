@@ -7,6 +7,7 @@ from random import choice
 from slugify import slugify
 from time import sleep
 from werkzeug.utils import secure_filename
+from PIL import Image
 
 query_version = 401
 
@@ -35,6 +36,7 @@ def main():
     argparser = create_argparser()
     args = argparser.parse_args()
     series_info_url = make_series_info_uri(args.series)
+
     series_info_json: dict = requests.get(series_info_url).json()
     series_info: dict = series_info_json['data']
     series_name = series_info['name']
@@ -86,7 +88,15 @@ def main():
             with open(filepath, "wb") as fs:
                 fs.write(bytes(webp_buffer))
 
-            print(f"{filepath} written to file")
+            ## Convert webp to png using Pillow
+            webp_abspath = os.path.join(os.getcwd(), filepath)
+            webp_image = Image.open(webp_abspath).convert("RGB")
+            webp_image.save(f"{chapter_dirpath}{os.sep}{filename.split('.')[0]}.png")
+            
+            # Delete the decoded WebP to save disk space
+            os.remove(filepath)
+
+            print(f"{filepath.split('.')[0]}.png written to file")
             sleep(choice([0.1, 0.2, 0.3, 0.4, 0.5]))
 
         print(f"{chapter_name_secure} downloaded" + (has_failed_download and ' [fail]' or ''))

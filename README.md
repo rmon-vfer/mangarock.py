@@ -15,9 +15,10 @@ pip install -e git+https://github.com/italomaia/mangarock.py#egg=master
 
 ## Note
 
-**Images** are downloaded in [webp format](https://developers.google.com/speed/webp/),
+**Images** are downloaded ~~in [webp format](https://developers.google.com/speed/webp/),
 which is new in might not open with all image viewers. As a last resort, you can
-use your web browser to open it.
+use your web browser to open it.~~ in PNG format, so you can open them with almost
+every image viewer.
 
 **MRI parser** is based in [this implementation](https://github.com/MinusGix/MangarockDownloader/blob/master/smallMangaRock.js).
 
